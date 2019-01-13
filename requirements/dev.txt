@@ -1,0 +1,17 @@
+-r common.txt
+
+# Sass
+libsass==0.14.5
+
+# Debuging
+django-debug-toolbar==1.9.1
+
+# Testing
+pytest==3.6.3
+pytest-django==3.3.2
+pytest-xdist==1.22.2
+pytest-env==0.6.2
+pytest-dotenv==0.2.0
+
+# Linting
+flake8==3.5.0
