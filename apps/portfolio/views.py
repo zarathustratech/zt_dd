@@ -81,46 +81,43 @@ class LoanListAPIView(APIView):
             uploaded_file = portfolio.uploadedfile_set.all().latest()
             file_path = uploaded_file.file.path
             uploaded_df = pd.read_csv(file_path)
-            # dashboard_df = uploaded_df[['cd_ngr_unif', 'status', 'num_events', 'prediction', 'confidence_score',
-            #                             'im_acc_cassa', 'im_util_cassa', 'util_rate', 'latitude', 'longitude']]
-            #
-            # coord_idxs = np.random.randint(low=0, high=10, size=dashboard_df.shape[0])
-            # ten_italy_coordinates = [[43.769562, 11.255814],
-            #                          [37.075474, 15.286586],
-            #                          [45.438759, 12.327145],
-            #                          [41.902782, 12.496366],
-            #                          [42.349850, 13.399509],
-            #                          [40.725925, 8.555683],
-            #                          [41.230618, 16.293224],
-            #                          [43.880852, 10.775525],
-            #                          [43.548473, 10.310567],
-            #                          [44.414165, 8.942184]]
-            #
-            # rows = []
-            # for index, row in dashboard_df.iterrows():
-            #     idx = coord_idxs[index]
-            #     row['latitude'] = ten_italy_coordinates[idx][0]
-            #     row['longitude'] = ten_italy_coordinates[idx][1]
-            #     rows.append(tuple(row))
+            dashboard_df = uploaded_df[['cd_ngr_unif', 'status', 'num_events', 'prediction', 'confidence_score',
+                                        'im_acc_cassa', 'im_util_cassa', 'util_rate', 'latitude', 'longitude']]
+
+            coord_idxs = np.random.randint(low=0, high=10, size=dashboard_df.shape[0])
+            ten_italy_coordinates = [[43.769562, 11.255814],
+                                     [37.075474, 15.286586],
+                                     [45.438759, 12.327145],
+                                     [41.902782, 12.496366],
+                                     [42.349850, 13.399509],
+                                     [40.725925, 8.555683],
+                                     [41.230618, 16.293224],
+                                     [43.880852, 10.775525],
+                                     [43.548473, 10.310567],
+                                     [44.414165, 8.942184]]
+
+            rows = []
+            for index, row in dashboard_df.iterrows():
+                idx = coord_idxs[index]
+                row['latitude'] = ten_italy_coordinates[idx][0]
+                row['longitude'] = ten_italy_coordinates[idx][1]
+                rows.append(tuple(row))
 
             headers = [
-                'cd_ngr',
-                'dt_acc_param',
-                'cd_anomalia',
-                'ds_anomalia',
-                'ty_anomalia',
-                'ds_ty_anomalia',
-                'cd_famiglia_anomalia',
-                'ds_famiglia_anomalia',
-                'ty_rilevanza_ev',
-                'fg_vincolante',
-                'ds_natura_parametro',
+                'ngr_cd',
+                'status',
+                'num_events',
+                'prediction',
+                'confidence_score',
+                'im_acc_cassa',
+                'im_util_cassa',
+                'util_rate',
+                'latitude',
+                'longitude',
             ]
             csv_rows = [','.join(headers)]
-
-            rows = [tuple(x) for x in uploaded_df.values]
             for row in rows:
-                csv_row = "%i,%s,%i,%s,%s,%s,%i,%s,%s,%s,%s" % row
+                csv_row = "%i,%i,%i,%i,'%i','%.2f','%.2f','%f',%f,%f" % row
                 csv_rows.append(csv_row)
 
             return Response(

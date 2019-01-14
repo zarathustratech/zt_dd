@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import LoaderCard from './LoaderCard';
 import IconCard from './IconCard';
-import numeral from 'numeral';
 
 
 const Card = (props) => {

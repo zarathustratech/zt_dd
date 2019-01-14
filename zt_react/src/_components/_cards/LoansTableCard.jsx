@@ -3,6 +3,7 @@ import { isMoment } from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoaderCard from './LoaderCard';
+import LoanRow from './LoanRow';
 import SortHeader from './SortHeader';
 
 
@@ -30,27 +31,15 @@ class LoanTable extends Component {
   render() {
     let rows = [];
     const { loans, loading } = this.props;
-
     if (loading === true) {
       return <LoaderCard />;
     }
-
     const {
       sortBy, sortDir, page, pageSize,
     } = this.state;
 
-    const codes_ngr = loans
-        .map(dataItem => dataItem.ngr_cd)
-        .filter((case_cd, index, array) => array.indexOf(case_cd) === index),
-
-    cases = codes_ngr
-      .map(cd_ngr => ({
-        ngr_code: cd_ngr,
-        num_events: loans.filter(item => item.ngr_cd === cd_ngr).length
-      }));
-
     if (sortBy !== null) {
-      cases.sort((a, b) => {
+      loans.sort((a, b) => {
         const val1 = a[sortBy];
         const val2 = b[sortBy];
         if (isMoment(val1)) {
@@ -66,42 +55,77 @@ class LoanTable extends Component {
         return 0;
       });
       if (sortDir === 'asc') {
-        cases.reverse();
+        loans.reverse();
       }
     }
 
-    const totalCases = cases.length;
-    const fromCase = ((page - 1) * pageSize);
-    const toCase = d3.min([(page - 1) * pageSize + pageSize, totalCases]);
+    const totalLoans = loans.length;
+    const fromLoan = ((page - 1) * pageSize);
+    const toLoan = d3.min([(page - 1) * pageSize + pageSize, totalLoans]);
 
-    for (let i = fromCase; i < toCase; i++) {
-      const single_case = cases[i];
+    for (let i = fromLoan; i < toLoan; i++) {
+      const loan = loans[i];
       rows.push(
-        <tr key={i} onClick={this.props.updateLoanCode}>
-            <td>{single_case.ngr_code}</td>
-            <td className="text-center">{single_case.num_events}</td>
-        </tr>
+        <LoanRow
+          loan={loan}
+          key={i}
+        />
       );
     };
 
-    const hasNext = toCase < totalCases;
-    const hasPrev = fromCase > 1;
+    const hasNext = toLoan < totalLoans;
+    const hasPrev = fromLoan > 1;
 
     return (
       <div className="row row-cards row-deck">
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <h3 className="card-title">Loans list</h3>
+              <h3 className="card-title">Loans detail</h3>
             </div>
             <div className="table-responsive">
-              <table className="table table-hover table-bordered table-striped">
+              <table className="table card-table table-vcenter text-nowrap">
                 <thead>
                   <tr>
-                    <th>NGR Code</th>
+                    <SortHeader
+                      name="NGR Code"
+                      sortKey="ngr_code"
+                      sortingBy={sortBy}
+                      sortingDir={sortDir}
+                      sortClicked={this.onSortClicked.bind(this)}/>
+                    <SortHeader
+                      name="Status"
+                      sortKey="status"
+                      sortingBy={sortBy}
+                      sortingDir={sortDir}
+                      sortClicked={this.onSortClicked.bind(this)} />
                     <SortHeader
                       name="Num Events"
                       sortKey="num_events"
+                      sortingBy={sortBy}
+                      sortingDir={sortDir}
+                      sortClicked={this.onSortClicked.bind(this)} />
+                    <SortHeader
+                      name="Allocated credit"
+                      sortKey="im_acc_cassa"
+                      sortingBy={sortBy}
+                      sortingDir={sortDir}
+                      sortClicked={this.onSortClicked.bind(this)} />
+                    <SortHeader
+                      name="Utilized credit"
+                      sortKey="im_util_cassa"
+                      sortingBy={sortBy}
+                      sortingDir={sortDir}
+                      sortClicked={this.onSortClicked.bind(this)} />
+                    <SortHeader
+                      name="Alloc/Util rate"
+                      sortKey="util_rate"
+                      sortingBy={sortBy}
+                      sortingDir={sortDir}
+                      sortClicked={this.onSortClicked.bind(this)} />
+                    <SortHeader
+                      name="3 mon prediction"
+                      sortKey="predictions"
                       sortingBy={sortBy}
                       sortingDir={sortDir}
                       sortClicked={this.onSortClicked.bind(this)} />
@@ -118,7 +142,7 @@ class LoanTable extends Component {
                   {hasPrev ? <a className="btn btn-secondary btn-sm" onClick={() => { this.setState({ page: this.state.page -1 }) }}><i className="fe fe-arrow-left"></i> Previews</a> : null}
                 </div>
                 <div className="col-4">
-                  Displaying {fromCase + 1} to {toCase} of {totalCases} loans.
+                  Displaying {fromLoan + 1} to {toLoan} of {totalLoans} loans.
                 </div>
                 <div className="col-4 text-right">
                   {hasNext ? <a className="btn btn-secondary btn-sm" onClick={()=>{this.setState({page: this.state.page + 1})}}>Next <i className="fe fe-arrow-right"></i></a> : null}

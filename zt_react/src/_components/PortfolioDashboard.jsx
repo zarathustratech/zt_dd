@@ -2,35 +2,33 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from './PageTitle';
 import {
-  AnomaliaCard, LoansTableCard,
+  PerformSubjectsCard, DefaultSubjectsCard, LoanMapCard, LoansTableCard,
 } from './_cards';
 
 
 class PortfolioDashboard extends Component {
   constructor(props) {
     super(props);
-    this.onLoanClicked = this.onLoanClicked.bind(this);
+    this.onMarkerClicked = this.onMarkerClicked.bind(this);
     this.onBoundsChange = this.onBoundsChange.bind(this);
   }
 
   state = {
     filterBounds: {},
-      selectedCode: 0,
   }
 
-  onLoanClicked(e){
-    const loanCode = Number.parseInt(e.target.innerText);
-    console.log("This is the selected code: " + loanCode);
-    this.setState({ selectedCode: loanCode });
+  onMarkerClicked(loan) {
+    // console.log(this, loan);
   }
 
   onBoundsChange(bounds) {
+    // console.log(this, bounds);
     this.setState({ filterBounds: bounds });
+    const { loans } = this.props;
   }
 
   render() {
     const { portfolio } = this.props;
-
     if (portfolio === undefined || portfolio === null || portfolio === {}) {
       return (
         <div className="my-3 my-md-5">
@@ -47,11 +45,24 @@ class PortfolioDashboard extends Component {
       <div className="container">
         <PageTitle title={portfolio.name} subtitle={portfolio.code} />
         <div className="row row-cards">
-          <div className="col-3">
-            <LoansTableCard updateLoanCode={this.onLoanClicked}/>
+          <div className="col-6">
+            <LoanMapCard
+              onMarkerClicked={this.onMarkerClicked}
+              onBoundsChange={this.onBoundsChange}
+            />
           </div>
-          <div className="col-9">
-            <AnomaliaCard selectedCd={this.state.selectedCode} />
+          <div className="col-6">
+            <div className="row">
+              <div className="col-6">
+                <PerformSubjectsCard />
+              </div>
+              <div className="col-6">
+                <DefaultSubjectsCard />
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <LoansTableCard />
           </div>
         </div>
       </div>
