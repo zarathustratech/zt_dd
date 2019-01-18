@@ -19,7 +19,7 @@ root_path = environ.Path(__file__) - 2
 BASE_DIR = root_path()
 
 ### Following is a hack for PyCharm
-env.read_env(root_path('.env'))
+env.read_env(root_path('../.env'))
 ###
 
 ZT_REACT_DIR = root_path('zt_react')
@@ -221,12 +221,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa
     'PAGE_SIZE': 100
 }
-
-# -----------------------------------------------------------------------------
-# CELERY
-# -----------------------------------------------------------------------------
-CELERY_BROKER_URL = env('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = 'django-db'
 
 # -----------------------------------------------------------------------------
 # DEBUG TOOBAR
