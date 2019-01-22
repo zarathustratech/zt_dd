@@ -75,7 +75,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        API_BASE_URL: JSON.stringify('http://localhost:8000'),
+        API_BASE_URL: JSON.stringify('http://178.62.79.77:8000'),
         ENVIRONMENT: JSON.stringify('dev'),
         SUBDIRECTORY: JSON.stringify('/app/'),
         DEBUG: true,

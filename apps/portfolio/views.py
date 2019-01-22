@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from io import StringIO
 
 from rest_framework import status
 from rest_framework.generics import (ListCreateAPIView,
@@ -79,8 +80,10 @@ class LoanListAPIView(APIView):
         try:
             portfolio = Portfolio.objects.get(code=self.kwargs['code'])
             uploaded_file = portfolio.uploadedfile_set.all().latest()
-            file_path = uploaded_file.file.path
-            uploaded_df = pd.read_csv(file_path)
+            file_field = uploaded_file.file
+            s = str(file_field.read(), 'utf-8')
+            data = StringIO(s)
+            uploaded_df = pd.read_csv(data)
             dashboard_df = uploaded_df[['cd_ngr_unif', 'status', 'num_events', 'prediction', 'confidence_score',
                                         'im_acc_cassa', 'im_util_cassa', 'util_rate', 'latitude', 'longitude']]
 
