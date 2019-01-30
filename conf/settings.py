@@ -26,7 +26,7 @@ ZT_REACT_DIR = root_path('zt_react')
 ZT_REACT_DIST_DIR = root_path('zt_react/dist')
 
 DJANGO_ENV = env('DJANGO_ENV', default='prod')
-assert DJANGO_ENV in ['dev', 'prod', 'test', 'staging']
+assert DJANGO_ENV in ['dev', 'prod', 'test', 'staging', 'poc']
 
 # -----------------------------------------------------------------------------
 # PROJECT CONFIGURATION
