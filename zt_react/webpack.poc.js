@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 's-[hash].js',
-    publicPath: 'https://zt-space-staging.ams3.digitaloceanspaces.com/zt_react/',
+    publicPath: 'https://poc.nplxplatform.com/static/zt_react/',
   },
 
   resolve: {
