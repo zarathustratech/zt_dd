@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack --config webpack.dev.js --watch",
     "build": "webpack --config webpack.prod.js",
-    "build-staging": "webpack --config webpack.staging.js"
+    "build-staging": "webpack --config webpack.staging.js",
+    "build-poc": "webpack --config webpack.poc.js"
   },
   "keywords": [],
   "author": "Francisco Ceruti <hello@fceruti.com>",
