@@ -1,0 +1,11 @@
+*.pyc
+__pycache__
+zt_react/node_modules
+webpack-stats.dev.json
+.env
+zt_react/dist/scripts.dev.js
+zt_react/node_modules
+.sass-cache
+.pytest_cache
+media
+.media-test
