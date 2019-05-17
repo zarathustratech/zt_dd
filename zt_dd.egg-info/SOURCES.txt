@@ -1,0 +1,6 @@
+manage.py
+setup.py
+zt_dd.egg-info/PKG-INFO
+zt_dd.egg-info/SOURCES.txt
+zt_dd.egg-info/dependency_links.txt
+zt_dd.egg-info/top_level.txt

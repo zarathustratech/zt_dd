@@ -11,7 +11,6 @@ import LoaderCard from './LoaderCard';
 const MAPBOX_MAP_STYLE = 'mapbox://styles/mapbox/light-v9';
 const MAPBOX_API_TOKEN = 'pk.eyJ1IjoiZmNlcnV0aSIsImEiOiJjamk0ZndyeWowOHdrM3BzMjNzcXZxd3EwIn0.GgiX4tu7xAVPoLcQXJo_Tw';
 
-
 const navStyle = {
   position: 'absolute',
   top: 0,
@@ -93,6 +92,7 @@ class LoanMap extends Component {
       width: dimensions[0],
       height: dimensions[1],
     };
+    
     this.setState({
       currentMapAttr: mapAttr,
       initialMapAttr: mapAttr,

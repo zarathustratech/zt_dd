@@ -5,13 +5,11 @@ import { Link, Redirect } from 'react-router-dom';
 import { Loader, PageTitle } from '../_components';
 import { portfolioService } from '../_services';
 
-
 const PortfolioShape = PropTypes.shape({
   state: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 });
-
 
 const PortfolioState = ({ state }) => {
       return (
@@ -61,7 +59,6 @@ const PortfolioRow = ({ portfolio }) => {
 PortfolioRow.propType = {
   portfolio: PortfolioShape,
 };
-
 
 const PortfolioTable = ({ portfolios }) => {
   const portfolioRows = portfolios.map(portfolio => (

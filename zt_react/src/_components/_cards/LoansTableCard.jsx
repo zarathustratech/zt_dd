@@ -1,30 +1,32 @@
 import * as d3 from "d3";
-import { isMoment } from 'moment';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import LoaderCard from './LoaderCard';
-import LoanRow from './LoanRow';
-import SortHeader from './SortHeader';
-
+import { isMoment } from "moment";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import LoaderCard from "./LoaderCard";
+import LoanRow from "./LoanRow";
+import SortHeader from "./SortHeader";
+import { CSVLink, CSVDownload } from "react-csv";
+import { NonFieldErrors } from "..";
 
 class LoanTable extends Component {
   state = {
-    sortBy: 'id',
-    sortDir: 'asc',
+    sortBy: "id",
+    sortDir: "asc",
     page: 1,
     pageSize: 10,
-  }
+    headers: []
+  };
 
   onSortClicked(key) {
     const { sortBy, sortDir } = this.state;
     if (sortBy === key) {
-      if (sortDir === 'asc') {
-        this.setState({ sortDir: 'desc' });
+      if (sortDir === "asc") {
+        this.setState({ sortDir: "desc" });
       } else {
-        this.setState({ sortDir: 'asc' });
+        this.setState({ sortDir: "asc" });
       }
     } else {
-      this.setState({ sortBy: key, sortDir: 'asc' });
+      this.setState({ sortBy: key, sortDir: "asc" });
     }
   }
 
@@ -34,17 +36,40 @@ class LoanTable extends Component {
     if (loading === true) {
       return <LoaderCard />;
     }
-    const {
-      sortBy, sortDir, page, pageSize,
-    } = this.state;
+    const { sortBy, sortDir, page, pageSize, headers } = this.state;
+
+    const linkStyle = {
+      color: "#467fcf",
+      textDecoration: "none"
+    };
+
+    const _headers = [];
+    if (loans.length > 0) {
+      for (var key in loans[0]) {
+        _headers.push({
+          label: key,
+          key: key
+        });
+      }
+    }
 
     if (sortBy !== null) {
       loans.sort((a, b) => {
         const val1 = a[sortBy];
         const val2 = b[sortBy];
         if (isMoment(val1)) {
-          if (val1 === null || val1 === undefined || (val1 instanceof Date && Number.isNaN(val1))) return -1;
-          if (val2 === null || val2 === undefined || (val2 instanceof Date && Number.isNaN(val2))) return 1;
+          if (
+            val1 === null ||
+            val1 === undefined ||
+            (val1 instanceof Date && Number.isNaN(val1))
+          )
+            return -1;
+          if (
+            val2 === null ||
+            val2 === undefined ||
+            (val2 instanceof Date && Number.isNaN(val2))
+          )
+            return 1;
         } else {
           if (val1 === null || val1 === undefined) return 1;
           if (val2 === null || val2 === undefined) return -1;
@@ -54,24 +79,19 @@ class LoanTable extends Component {
         if (val1 < val2) return -1;
         return 0;
       });
-      if (sortDir === 'asc') {
+      if (sortDir === "asc") {
         loans.reverse();
       }
     }
 
     const totalLoans = loans.length;
-    const fromLoan = ((page - 1) * pageSize);
+    const fromLoan = (page - 1) * pageSize;
     const toLoan = d3.min([(page - 1) * pageSize + pageSize, totalLoans]);
 
     for (let i = fromLoan; i < toLoan; i++) {
       const loan = loans[i];
-      rows.push(
-        <LoanRow
-          loan={loan}
-          key={i}
-        />
-      );
-    };
+      rows.push(<LoanRow loan={loan} key={i} />);
+    }
 
     const hasNext = toLoan < totalLoans;
     const hasPrev = fromLoan > 1;
@@ -81,7 +101,16 @@ class LoanTable extends Component {
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <h3 className="card-title">Loans detail</h3>
+              <div class="col-6">
+                <h3 className="card-title"> Loans detail </h3>
+              </div>
+              <div style={linkStyle} class="col-6  text-right">
+                <a class="btn btn-secondary btn-sm">
+                  <CSVLink data={loans} headers={_headers}>
+                    Download CSV{" "}
+                  </CSVLink>
+                </a>
+              </div>
             </div>
             <div className="table-responsive">
               <table className="table card-table table-vcenter text-nowrap">
@@ -92,60 +121,83 @@ class LoanTable extends Component {
                       sortKey="ngr_code"
                       sortingBy={sortBy}
                       sortingDir={sortDir}
-                      sortClicked={this.onSortClicked.bind(this)}/>
+                      sortClicked={this.onSortClicked.bind(this)}
+                    />
                     <SortHeader
                       name="Status"
                       sortKey="status"
                       sortingBy={sortBy}
                       sortingDir={sortDir}
-                      sortClicked={this.onSortClicked.bind(this)} />
+                      sortClicked={this.onSortClicked.bind(this)}
+                    />
                     <SortHeader
                       name="Num Events"
                       sortKey="num_events"
                       sortingBy={sortBy}
                       sortingDir={sortDir}
-                      sortClicked={this.onSortClicked.bind(this)} />
+                      sortClicked={this.onSortClicked.bind(this)}
+                    />
                     <SortHeader
                       name="Allocated credit"
                       sortKey="im_acc_cassa"
                       sortingBy={sortBy}
                       sortingDir={sortDir}
-                      sortClicked={this.onSortClicked.bind(this)} />
+                      sortClicked={this.onSortClicked.bind(this)}
+                    />
                     <SortHeader
                       name="Utilized credit"
                       sortKey="im_util_cassa"
                       sortingBy={sortBy}
                       sortingDir={sortDir}
-                      sortClicked={this.onSortClicked.bind(this)} />
+                      sortClicked={this.onSortClicked.bind(this)}
+                    />
                     <SortHeader
                       name="Alloc/Util rate"
                       sortKey="util_rate"
                       sortingBy={sortBy}
                       sortingDir={sortDir}
-                      sortClicked={this.onSortClicked.bind(this)} />
+                      sortClicked={this.onSortClicked.bind(this)}
+                    />
                     <SortHeader
                       name="3 mon prediction"
                       sortKey="predictions"
                       sortingBy={sortBy}
                       sortingDir={sortDir}
-                      sortClicked={this.onSortClicked.bind(this)} />
+                      sortClicked={this.onSortClicked.bind(this)}
+                    />
                   </tr>
                 </thead>
-                <tbody>
-                  {rows}
-                </tbody>
+                <tbody>{rows}</tbody>
               </table>
             </div>
             <div className="card-footer text-center">
               <div className="row">
                 <div className="col-4 text-left">
-                  {hasPrev ? <a className="btn btn-secondary btn-sm" onClick={() => { this.setState({ page: this.state.page -1 }) }}><i className="fe fe-arrow-left"></i> Previews</a> : null}
+                  {hasPrev ? (
+                    <a
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => {
+                        this.setState({ page: this.state.page - 1 });
+                      }}
+                    >
+                      <i className="fe fe-arrow-left" /> Previews
+                    </a>
+                  ) : null}
                 </div>
                 <div className="col-4">
                   Displaying {fromLoan + 1} to {toLoan} of {totalLoans} loans.
                 </div>
                 <div className="col-4 text-right">
-                  {hasNext ? <a className="btn btn-secondary btn-sm" onClick={()=>{this.setState({page: this.state.page + 1})}}>Next <i className="fe fe-arrow-right"></i></a> : null}
+                  {hasNext ? (
+                    <a
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => {
+                        this.setState({ page: this.state.page + 1 });
+                      }}
+                    >
+                      Next <i className="fe fe-arrow-right" />
+                    </a>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -153,15 +205,14 @@ class LoanTable extends Component {
         </div>
       </div>
     );
-  };
+  }
 }
-
 
 function mapStateToProps(state) {
   const { loans, loading } = state.loans;
   return {
     loans,
-    loading,
+    loading
   };
 }
 

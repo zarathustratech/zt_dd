@@ -8,6 +8,7 @@ const SortHeader = (props) => {
   } = props;
   const isSorting = sortingBy === sortKey;
   let icon;
+  
   if (isSorting === true) {
     icon = (sortingDir === 'asc') ? <i className="fe fe-arrow-up" /> : <i className="fe fe-arrow-down" />;
   } else {

@@ -26,12 +26,15 @@ class PortfolioDetailPage extends Component {
       dispatch(portfolioActions.fetchLoans(match.params.code));
       return (
         <div>
+      
           <Route path="/portfolio/i/:code([0-9a-z-]*)" exact component={PortfolioDashboard} />
         </div>
       );
     }
+    
     return (
       <div className="container">
+    
         <PageTitle title={portfolio.name} subtitle={portfolio.code} />
         <div className="alert alert-primary">
           We are in the proccess of analyzing your portfolio.
