@@ -5,7 +5,6 @@ import {
   PerformSubjectsCard, DefaultSubjectsCard, LoanMapCard, LoansTableCard,
 } from './_cards';
 
-
 class PortfolioDashboard extends Component {
   constructor(props) {
     super(props);

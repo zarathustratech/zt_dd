@@ -11,7 +11,6 @@ function login(username, password) {
 
   return (dispatch) => {
     dispatch(request({ username }));
-
     accountService.login(username, password)
       .then(
         (response) => {

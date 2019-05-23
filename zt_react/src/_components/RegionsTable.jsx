@@ -56,7 +56,6 @@ class RegionsTable extends Component {
     let self = this;
     let rows = regions.map((region, index)=> {
       let isChecked = self.state.selectedRegions.has(region.key);
-
       return (
         <tr key={index}>
           <td><input type="checkbox" checked={isChecked} onChange={()=>self.onRegionChange(region.key)} /></td>

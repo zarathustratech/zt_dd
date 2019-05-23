@@ -42,7 +42,6 @@ function register(user) {
     headers: { 'Content-Type': 'application/json' },
     data: user,
   })
-
   return response;
 }
 

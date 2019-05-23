@@ -26,7 +26,6 @@ class PortfolioDetailPage extends Component {
       dispatch(portfolioActions.fetchLoans(match.params.code));
       return (
         <div>
-      
           <Route path="/portfolio/i/:code([0-9a-z-]*)" exact component={PortfolioDashboard} />
         </div>
       );

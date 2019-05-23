@@ -1,6 +1,5 @@
 import accountConstants from '../_constants/account.constants';
 
-
 const accountReducer = (state = {}, action) => {
   switch (action.type) {
     case accountConstants.ME_REQUEST:
