@@ -5,7 +5,7 @@ import numeral from 'numeral';
 
 class CurrencyCell extends Component {
   static propTypes = {
-    ammount: PropTypes.number.isRequired,
+    ammount: PropTypes.string.isRequired,
   }
   render() {
     return (

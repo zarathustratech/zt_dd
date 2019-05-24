@@ -180,7 +180,7 @@ class LoanMap extends Component {
 
           markers.push((
             <CircleMarker
-              key={loan.id}
+              key={index}
               latitude={loan.latitude}
               longitude={loan.longitude}
               value={loan.im_util_cassa}

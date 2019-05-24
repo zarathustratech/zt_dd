@@ -38,11 +38,6 @@ class LoanTable extends Component {
     }
     const { sortBy, sortDir, page, pageSize, headers } = this.state;
 
-    const linkStyle = {
-      color: "#467fcf",
-      textDecoration: "none"
-    };
-
     const _headers = [];
     if (loans.length > 0) {
       for (var key in loans[0]) {
@@ -104,8 +99,8 @@ class LoanTable extends Component {
               <div class="col-6">
                 <h3 className="card-title"> Loans detail </h3>
               </div>
-              <div style={linkStyle} class="col-6  text-right">
-                <a class="btn btn-secondary btn-sm">
+              <div className="col-6  text-right">
+                <a className="btn btn-secondary btn-sm">
                   <CSVLink data={loans} headers={_headers}>
                     Download CSV{" "}
                   </CSVLink>

@@ -21,7 +21,7 @@ const Card = (props) => {
     <IconCard
       iconClass="fe"
       bgColor="red"
-      text={defaultCases}
+      text={defaultCases.toString()}
       mutedText="Predicted Default Cases"
     />
   );

@@ -7,7 +7,7 @@ import { portfolioActions } from '../_actions';
 
 class PortfolioDetailPage extends Component {
   componentDidMount() {
-    const { dispatch, match } = this.props;
+    const { dispatch, match, portfolio } = this.props;
     dispatch(portfolioActions.fetchDetail(match.params.code));
   }
 
