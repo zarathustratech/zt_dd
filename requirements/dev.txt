@@ -4,7 +4,7 @@
 libsass==0.14.5
 
 # Debuging
-django-debug-toolbar==1.9.1
+django-debug-toolbar==1.11.1
 
 # Testing
 pytest==3.6.3
